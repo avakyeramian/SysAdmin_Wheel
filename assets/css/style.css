@@ -1,0 +1,67 @@
+body {
+	min-height:100vh;
+	display:flex;
+	flex-direction:column;
+    font-family: Sans-serif,serif;
+    margin: 0;
+}
+
+header {
+    text-align: center;
+    background:  black;
+    color: white;
+    padding: 1em 1em 1em 1em;
+}
+
+main {
+	flex-grow:1;
+    margin: 1em 1em 1em 1em;
+}
+
+#SysAdmin_Wheel{
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+    flex-direction: column;
+}
+
+#options{
+
+}
+
+#print {
+    background: black;
+    color : white;
+    text-align: center;
+    font-size: 1.8em;
+}
+
+ul{
+    list-style: none;
+    padding: 0em 0em 0em 0em;
+}
+
+footer {
+    background:  black;
+    color: white;
+}
+
+footer ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+}
+
+footer ul li a {
+	color:pink;
+    text-decoration: none;
+    margin: 1em 1em 1em 1em;
+}
+
+footer p {
+    background: darkred;
+    color: white;
+    margin: 0em 0em 0em 0em;
+    text-align: center;
+    padding: 0em 1em 0em 1em;
+}
