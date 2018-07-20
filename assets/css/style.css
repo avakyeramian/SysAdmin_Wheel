@@ -13,22 +13,27 @@ header {
     padding: 1em 1em 1em 1em;
 }
 
-header nav a
-{
-	text-transform: uppercase;
-	color:deepskyblue;
-    text-decoration: none;
-    margin: 1em 1em 1em 1em;
-}
-
 main {
 	flex-grow:1;
     margin: 1em 1em 1em 1em;
 }
 
+#SysAdmin_Wheel{
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+    flex-direction: column;
+}
+
+#options{
+
+}
+
 #print {
     background: black;
     color : white;
+    text-align: center;
+    font-size: 1.8em;
 }
 
 ul{
@@ -43,7 +48,8 @@ footer {
 
 footer ul {
     list-style-type: none;
-    display: inline-flex;
+    display: flex;
+    justify-content: center;
 }
 
 footer ul li a {
@@ -56,6 +62,6 @@ footer p {
     background: darkred;
     color: white;
     margin: 0em 0em 0em 0em;
-    text-align: right;
+    text-align: center;
     padding: 0em 1em 0em 1em;
 }

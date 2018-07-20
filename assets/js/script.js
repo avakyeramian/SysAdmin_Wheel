@@ -14,48 +14,54 @@ function content()
     //  By contrast, the GNU General Public License is intended to guarantee your freedom to share and change all versions of a program--to make sure it remains free software for all its users. We, the Free Software Foundation, use the GNU General Public License for most of our software; it applies also to any other work released this way by its authors. You can apply it to your programs, too.
     //
     
+    /* -- useless/20 -- */
+    
     var document = window.document;
     var alert = window.alert;
     var console = window.console;
     var body = document.body;
     
-    /* -- Config -- */
+    /* -- init wheel_items -- */
     
     var wheel_items = {};
     wheel_items["Redémarrer"] = "enable";
-    wheel_items["Ecran allumé ?"] = "enable";
-    wheel_items["Voyant d'alimentation allumé ?"] = "enable";
+    wheel_items["Ecran allumé?"] = "enable";
+    wheel_items["Voyant d'alimentation allumé?"] = "enable";
     wheel_items["Vider le cache"] = "enable";
-    wheel_items["Cable branché ?"] = "enable";
-    wheel_items["Cable d'alimentation branché ?"] = "enable";
+    wheel_items["Cable branché?"] = "enable";
+    wheel_items["Cable d'alimentation branché?"] = "enable";
     
-    var wheelDiv = document.getElementById("SysAdmin_Wheel");
+    /* -- init dom vars  -- */
     
-    var print = document.createElement("code");
-    print.setAttribute("id","print");
-    wheelDiv.append(print);
+    var wheel_div = document.getElementById("SysAdmin_Wheel");
     
-    var boutons = document.createElement("div");
-    boutons.setAttribute("id","boutons");
-    wheelDiv.append(boutons);
+    var print_div = document.createElement("code");
+    print_div.setAttribute("id","print");
+    wheel_div.append(print_div);
     
-    var boutonTourner = document.createElement("button");
-    boutonTourner.setAttribute("id","boutonTourner");
-    boutonTourner.innerHTML = "Tourner";
-    boutons.append(boutonTourner);
+    var boutons_div = document.createElement("div");
+    boutons_div.setAttribute("id","boutons");
+    wheel_div.append(boutons_div);
     
-    var boutonReset = document.createElement("button");
-    boutonReset.setAttribute("id","boutonReset");
-    boutonReset.innerHTML = "Reset";
-    boutons.append(boutonReset);
+    var bouton_tourner = document.createElement("button");
+    bouton_tourner.setAttribute("id","bouton_tourner");
+    bouton_tourner.innerHTML = "Tourner";
+    bouton_tourner.onclick = turnWheel;
+    boutons_div.append(bouton_tourner);
     
-    var options = document.createElement("div");
-    options.setAttribute("id","options");
-    wheelDiv.append(options);
+    var bouton_reset = document.createElement("button");
+    bouton_reset.setAttribute("id","bouton_reset");
+    bouton_reset.innerHTML = "Reset";
+    bouton_reset.onclick = resetWheel;
+    boutons_div.append(bouton_reset);
+    
+    var options_div = document.createElement("div");
+    options_div.setAttribute("id","options");
+    wheel_div.append(options_div);
     
     var import_export_ul = document.createElement("ul");
     import_export_ul.setAttribute("id","import_export");
-    wheelDiv.append(import_export_ul);
+    wheel_div.append(import_export_ul);
     
     var import_li = document.createElement("li");
     import_export_ul.append(import_li);
@@ -85,51 +91,70 @@ function content()
     export_boutton.onclick = exportFile;
     export_li.append(export_boutton);
     
-    var ul_options = document.createElement("ul");
-    options.append(ul_options);
+    var options_ul = document.createElement("ul");
+    options_div.append(options_ul);
     
-    print.innerHTML = "Roue initialisée !";
+    /* -- init wheel options ul -- */
     
     setOptionWheel(wheel_items);
+    print_div.innerHTML = "Roue initialisée !";
+
     
-    boutonTourner.onclick = turnWheel;
-    boutonReset.onclick = resetWheel;
+    /* -- fonctions -- */
     
     function turnWheel(){
+        /*
+            
+        Turn the wheel of fortune randomly "by deactivating each item" 
+            
+        */
+        
         var indice,taille,attribut,wheel;        
         wheel = setWheel(wheel_items);
         taille = Object.keys(wheel).length;
         if(remainingSolutionWheel(wheel_items)){
-            print.innerHTML = "";
-            boutonTourner.disabled = false;
+            print_div.innerHTML = "";
+            bouton_tourner.disabled = false;
             do{
                 indice = Math.floor(Math.random() * taille);
                 attribut = getAttributByNum(wheel,indice);
             }while(attribut == null)
 
-            print.innerHTML = attribut;
+            print_div.innerHTML = attribut;
             wheel_items[attribut] = "disable";
             document.getElementById(attribut).checked = false;
             if(remainingSolutionWheel(wheel_items)==false){
-                boutonTourner.disabled = true
+                bouton_tourner.disabled = true
             }
         }else{
-            boutonTourner.disabled = true
+            bouton_tourner.disabled = true
         }
     }
     
     function resetWheel(){
+        /*
+            
+        Re-enable all items of wheel_items
+            
+        */
+        
         for(var key in wheel_items){
             wheel_items[key] = "enable";
-            boutonTourner.disabled = false;
+            bouton_tourner.disabled = false;
             if(document.getElementById(key)){
                 document.getElementById(key).checked = true;
             }
         }
-        print.innerHTML = "Roue réinitialisée !";
+        print_div.innerHTML = "Roue réinitialisée !";
     }
     
     function setWheel(wheel_items){
+        /*
+            
+        Return a wheel_items without disable items
+            
+        */
+        
         var wheelSeted = {};
         for(var key in wheel_items){
             if(wheel_items[key] == "enable"){
@@ -140,17 +165,29 @@ function content()
     }
     
     function remainingSolutionWheel(wheel_items){
+        /*
+            
+        Return a boolean if there are still solutions in wheel_items
+            
+        */
+        
         var bool = false;
-        for(var key in wheel_items){
-            if(wheel_items[key] == "enable"){
+        for(var item in wheel_items){
+            if(wheel_items[item] == "enable"){
                 bool = true;
-                boutonTourner.disabled = false;
+                bouton_tourner.disabled = false;
             }
         }
         return bool;
     }
     
     function getAttributByNum(obj,numAttribut){
+        /*
+            
+        Get an attribut from a js object by his index number
+            
+        */
+        
         var compteur = 0;
         for(var key in obj){
             if (compteur == numAttribut){
@@ -162,9 +199,17 @@ function content()
     }
     
     function setOptionWheel(wheel_items){
+        /*
+
+        - Delete options_ul old content
+        - For each wheel_items make a li
+        - Create input to add a new wheel item 
+
+        */
         
-        while (ul_options.firstChild) {
-            ul_options.removeChild(ul_options.firstChild);
+        
+        while (options_ul.firstChild) {
+            options_ul.removeChild(options_ul.firstChild);
         }
         
         var li_add = document.createElement("li");
@@ -202,7 +247,7 @@ function content()
         };
         li_add.append(input_add);
         
-        ul_options.append(li_add);
+        options_ul.append(li_add);
         
         for(var item in wheel_items){
             addOptionWheel(item);
@@ -210,7 +255,16 @@ function content()
     }
     
     function addOptionWheel(item){
-            boutonTourner.disabled = false;
+            /*
+            
+            Add a li to options_ul with 
+                - remove button
+                - enable/disable checkbox
+                - the item name
+            
+            */
+        
+            bouton_tourner.disabled = false;
             var li = document.createElement("li");
             var div_item = document.createElement("div");
             div_item.innerHTML = item;
@@ -223,11 +277,11 @@ function content()
             input_checkbox.onclick = function(event){
                 if(event.target.checked==true){
                     wheel_items[event.target.id] = "enable";
-                    boutonTourner.disabled = false;
+                    bouton_tourner.disabled = false;
                 }else{
                     wheel_items[event.target.id] = "disable";
                     if(remainingSolutionWheel(wheel_items)==false){
-                        boutonTourner.disabled = true;
+                        bouton_tourner.disabled = true;
                     }
                 }
             }
@@ -243,10 +297,16 @@ function content()
         
             div_item.prepend(boutton_rem);
         
-            ul_options.prepend(li);
+            options_ul.prepend(li);
     }
     
     function importFile(event){
+        /*
+        
+        Import a txt file to create a new wheel_items object
+        
+        */
+        
         var input = event.target;
 
         var reader = new FileReader();
@@ -269,6 +329,12 @@ function content()
       }
     
     function exportFile(){
+        /*
+        
+        Export wheel_items object to a txt file
+        
+        */
+        
         var string = "";
         
         for(var item in wheel_items){
