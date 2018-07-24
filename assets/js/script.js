@@ -122,7 +122,7 @@ function content()
 
             print_div.innerHTML = attribut;
             wheel_items[attribut] = "disable";
-            document.getElementById(attribut).checked = false;
+            document.getElementById(spaceToUnderscore(attribut)).checked = false;
             if(remainingSolutionWheel(wheel_items)==false){
                 bouton_tourner.disabled = true
             }
@@ -141,8 +141,8 @@ function content()
         for(var key in wheel_items){
             wheel_items[key] = "enable";
             bouton_tourner.disabled = false;
-            if(document.getElementById(key)){
-                document.getElementById(key).checked = true;
+            if(document.getElementById(spaceToUnderscore(key))){
+                document.getElementById(spaceToUnderscore(key)).checked = true;
             }
         }
         print_div.innerHTML = "Roue réinitialisée !";
@@ -271,15 +271,15 @@ function content()
             li.append(div_item);
             
             var input_checkbox =  document.createElement("input");
-            input_checkbox.setAttribute("id",item);
+            input_checkbox.setAttribute("id",spaceToUnderscore(item));
             input_checkbox.setAttribute("type","checkbox");
             if(wheel_items[item]=="enable") input_checkbox.checked = true;
             input_checkbox.onclick = function(event){
                 if(event.target.checked==true){
-                    wheel_items[event.target.id] = "enable";
+                    wheel_items[underscoreToSpace(event.target.id)] = "enable";
                     bouton_tourner.disabled = false;
                 }else{
-                    wheel_items[event.target.id] = "disable";
+                    wheel_items[underscoreToSpace(event.target.id)] = "disable";
                     if(remainingSolutionWheel(wheel_items)==false){
                         bouton_tourner.disabled = true;
                     }
@@ -355,4 +355,29 @@ function content()
 
         document.body.removeChild(element);
     }
+    
+    function spaceToUnderscore(string){
+        var new_string = "";
+        for(var char in string){
+            if(string[char] == " "){
+                new_string = new_string+"_";
+            }else{
+                new_string = new_string + string[char];
+            }
+        }
+        return new_string;
+    }
+    
+    function underscoreToSpace(string){
+        var new_string = "";
+        for(var char in string){
+            if(string[char] == "_"){
+                new_string = new_string+" ";
+            }else{
+                new_string = new_string + string[char];
+            }
+        }
+        return new_string;     
+    }
+    
 }
