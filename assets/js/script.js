@@ -20,6 +20,7 @@ function content()
     var alert = window.alert;
     var console = window.console;
     var body = document.body;
+    var navigator = window.navigator;
     
     /* -- init wheel_items -- */
     
@@ -378,6 +379,10 @@ function content()
             }
         }
         return new_string;     
+    }
+    
+    if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('./assets/js/service_worker.js');
     }
     
 }
