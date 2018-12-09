@@ -27,10 +27,10 @@ function content()
     var wheel_items = {};
     wheel_items["Redémarrer"] = "enable";
     wheel_items["Ecran allumé?"] = "enable";
-    wheel_items["Voyant d'alimentation allumé?"] = "enable";
+    wheel_items["Voyant d'alimentation?"] = "enable";
     wheel_items["Vider le cache"] = "enable";
     wheel_items["Cable branché?"] = "enable";
-    wheel_items["Cable d'alimentation branché?"] = "enable";
+    wheel_items["Cable d'alimentation?"] = "enable";
     
     /* -- init dom vars  -- */
     
@@ -235,7 +235,8 @@ function content()
         var input_add = document.createElement("input");
         input_add.setAttribute("type","text");
         input_add.setAttribute("placeholder","Ajouter une solution");
-        input_add.setAttribute("size","32");
+        input_add.setAttribute("maxlength","22");
+        input_add.setAttribute("size","28");
         input_add.onkeyup = function(event){
             if (event.key === "Enter") {
                 var new_item = event.target.value;
