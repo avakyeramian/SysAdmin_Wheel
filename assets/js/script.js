@@ -316,7 +316,7 @@ function content()
             //var text = reader.result;
             //var node = document.getElementById('output');
             //node.innerText = text;
-            var lines = reader.result.split('\n');
+            var lines = reader.result.split(/[\r\n]+/g); // tolerate both Windows and Unix linebreaks
             var new_wheel_items = {};
             for(var line = 0; line < lines.length; line++){
                 if(lines[line]!=""){
